@@ -3,15 +3,15 @@ package controller;
 import java.util.Scanner;
 
 import com.models.Employee;
-import com.services.EmployeeList;
+import com.services.EmployeeServiceImpl;
 
 public class EmployeeController {
 	private Scanner sc = new Scanner(System.in);
-	private EmployeeList empList = new EmployeeList();
+	private EmployeeServiceImpl empList = new EmployeeServiceImpl();
 
-	    public void Menu() {
+	    public void handleRequest() {
 		boolean back = false;
-		DisplayMenu();
+		displayMenu();
 		System.out.print("\t\t\t Welcome to the Employee registration system\n");
 		while (!back) {
 			//System.out.print("\t\t\t Welcome to the Employee registration system\n");
@@ -25,26 +25,26 @@ public class EmployeeController {
 					back = true;
 					break;
 				case 1:
-					Employee_Add();
+					addEmployee();
 					break;
 				case 2:
-					empList.Employee_display();
+					empList.displayDetails();
 					break;
 					
 				case 3:
-					Employee_update();
+					updateEmployee();
 					break;
 
 				case 4:
-					Employee_delete();
+					deleteEmployee();
 					break;
 
 				case 5:
-					Employee_search();
+					searchEmployee();
 					break;
 
 				case 6:
-					DisplayMenu();
+					displayMenu();
 					break;
 				
 					default:
@@ -58,7 +58,7 @@ public class EmployeeController {
 
 	}
 
-	public void Employee_Add() {
+	public void addEmployee() {
 		try {
 			System.out.print("Enter the employee name: ");
 			String name = sc.nextLine();
@@ -67,17 +67,17 @@ public class EmployeeController {
 			int Age = Integer.parseInt(age);
 			System.out.print("Enter employee address: ");
 			String address = sc.nextLine();
-			Employee newEmployee = Employee.new_create(empList.Id(), name, Age, address);
+			Employee newEmployee = Employee.createNew(empList.Id(), name, Age, address);
 			System.out.println("Records saved successfully.");
 			System.out.println("\n Your Employee id:" +newEmployee.getId());
-			empList.checkadd(newEmployee);
+			empList.addDetails(newEmployee);
 		} catch (Exception e) {
 			System.out.println("Something wrong in addition process");
 		}
 
 	}
 
-	public void Employee_delete() {
+	public void deleteEmployee() {
 		try {
 			System.out.print("Please enter the id: ");
 			String id = sc.nextLine();
@@ -87,7 +87,7 @@ public class EmployeeController {
 			if (search == null) {
 				System.out.println("Record does not exists for ID: " + ID);
 			}
-			if (empList.remove(search)) {
+			if (empList.removeDetails(search)) {
 				System.out.println("Records for ID: " + search.getId() + " deleted successfully");
 			} else {
 				System.out.println("Deletion is not possible ");
@@ -98,7 +98,7 @@ public class EmployeeController {
 
 	}
 
-	public void Employee_search() {
+	public void searchEmployee() {
 		try {
 			System.out.print("Please enter the id: ");
 			String id = sc.nextLine();
@@ -119,11 +119,11 @@ public class EmployeeController {
 
 	}
 
-	public void DisplayMenu() {
+	public void displayMenu() {
 		System.out.println("Type here:" + "\nType 0 to close\n" + "Type 1 to Add Employee\n"+ "Type 2 to Display Employee details\n" + "Type 3 to Update Employee details\n"+ "Type 4 to Remove Employee details\n" + "Type 5 to Search Employee details \n");
 	}
 
-	public void Employee_update() {
+	public void updateEmployee() {
 		try {
 			System.out.print("Please enter the id: ");
 			String id = sc.nextLine();
@@ -140,9 +140,9 @@ public class EmployeeController {
 				int integerAge = Integer.parseInt(age);
 				System.out.print("Enter new employee address: ");
 				String address = sc.nextLine();
-				Employee newEmployee = Employee.new_create(recordEmployee.getId(), name, integerAge, address);
+				Employee newEmployee = Employee.createNew(recordEmployee.getId(), name, integerAge, address);
 
-				if (empList.update(recordEmployee, newEmployee)) {
+				if (empList.updateDetails(recordEmployee, newEmployee)) {
 					System.out.println("Successfully Updated");
 				} else {
 					System.out.println("Update Unsuccessful");

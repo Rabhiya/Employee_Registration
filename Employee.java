@@ -13,7 +13,7 @@ public class Employee {
 		this.employeeAddress = employeeAddress;
 	}
 
-	public static Employee new_create(long employeeID, String name, int age, String address) {
+	public static Employee createNew(long employeeID, String name, int age, String address) {
 
 		return new Employee(employeeID, name, age, address);
 
